@@ -5,9 +5,12 @@ const { isValidObjectId } = require('../utils/utils');
 const createBlog = async (req, res) => {
   const { title, content, categoryId } = req.body;
   const userId = req.user.id;
+  if (!isValidObjectId(categoryId)) {
+    res.status(400).json({ message: 'Invalid category ID format' });
+  }
 
   try {
-    await getOneCategory(categoryId, res);
+    await getOneCategory(categoryId);
 
     const newBlog = new Blog({
       title,
@@ -24,7 +27,7 @@ const createBlog = async (req, res) => {
       return res.status(400).json({ message: errors });
     }
 
-    if (err.message === 'Category does not exist') {
+    if (err.message === 'Category does not exist' || err.message === 'Error fetching category') {
       return res.status(404).json({ message: err.message });
     }
 

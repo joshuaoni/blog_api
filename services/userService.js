@@ -18,6 +18,7 @@ const signUpUser = async (req, res) => {
       password: hashedPassword,
     });
     await newUser.save();
+    delete newUser._doc.password;
 
     res.status(201).json(newUser);
   } catch (err) {
@@ -69,7 +70,7 @@ const getOneUser = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const user = await User.findById(id);
+    const user = await User.findById(id).select('-password');
 
     res.status(200).json(user);
   } catch (err) {
@@ -79,7 +80,7 @@ const getOneUser = async (req, res) => {
 
 const getUsers = async (res) => {
   try {
-    const users = await User.find();
+    const users = await User.find().select('-password');
 
     res.status(200).json(users);
   } catch (err) {

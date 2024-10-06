@@ -37,9 +37,13 @@ const getOneCategory = async (id) => {
 
     return category;
   } catch (err) {
-    throw new Error('Error fetching category');
+    if (err.message === 'Category does not exist') {
+      throw err;
+    } else {
+      throw new Error('Error fetching category');
+    }
   }
-}
+};
 
 const editCategory = async (req, res) => {
   const updates = req.body;

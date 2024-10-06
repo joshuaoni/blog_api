@@ -8,10 +8,6 @@ const getCategories = async (req, res) => {
   return await categoryService.getCategories(res);
 }
 
-const getOneCategory = async (req, res) => {
-  return await categoryService.getOneCategory(req, res);
-}
-
 const editCategory = async (req, res) => {
   return await categoryService.editCategory(req, res);
 }
@@ -19,6 +15,5 @@ const editCategory = async (req, res) => {
 module.exports = {
   createCategory,
   getCategories,
-  getOneCategory,
   editCategory
 }
